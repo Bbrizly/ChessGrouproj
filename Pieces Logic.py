@@ -13,24 +13,26 @@ class Pawn:
             #if white -1
             #if black +1
             n, m = (self.x - 1), self.y
-            if n < 0 or m < 0 or n > 8 or n > 8:
+            if n < 0 or m < 0 or n > 8 or n > 8: #make sure is in grid
                 raise IndexError
             if self.a[n][m] == '⬛' or self.a[n][m] == '⬜':
                 self.a[n][m] = 'X'
                 print(f'you can move to {n},{m}')
-                try:
-                    n, m = (self.x - 2), self.y
-                    if n < 0 or m < 0 or n > 8 or n > 8:
-                        raise IndexError
-                    if self.a[n][m] == '⬛' or self.a[n][m] == '⬜':
-                        self.a[n][m] = 'X'
-                        print(f'you can move to {n},{m}')
-                except IndexError as e:
-                    print(e)
+                if self.moved == False:
+                    try:
+                        n, m = (self.x - 2), self.y
+                        if n < 0 or m < 0 or n > 8 or n > 8: #make sure is in grid
+                            raise IndexError
+                        if self.a[n][m] == '⬛' or self.a[n][m] == '⬜':
+                            self.a[n][m] = 'X'
+                            print(f'you can move to {n},{m}')
+                    except IndexError as e:
+                        print(e)
         except IndexError as e:
             print(e)
     def move(self,inpx, inpy):
         if self.a[inpx][inpy] == 'X':
+            self.moved = True
             self.a[inpx][inpy] = '♟'
             self.a[self.x][self.y] = 0
             for i in range(8):
@@ -40,8 +42,57 @@ class Pawn:
         else:
             print("invalid input")
 
+class Rook:
+    def __init__(self,x:int,y:int,color:str,board:list):
+        self.x, self.y = x,  y
+        self.color = color
+        self.a = board
+        a[self.x][self.y] = '♜'
+    def poss_moves(self):  # rook
+        #down max
+        #right max
+        #left max
+        def up(x,y):
+            if x < 0: #out of index
+                return
+            if self.a[x][y] == '⬛' or self.a[x][y] == '⬜':
+                a[x][y] = 'X'
+                print(f'you can move to {x},{y}')
+            return up(x-1,y)
+        up(self.x-1,self.y)
+        def down(x,y):
+            if x >7: #out of index
+                return
+            if self.a[x][y] == '⬛' or self.a[x][y] == '⬜':
+                a[x][y] = 'X'
+                print(f'you can move to {x},{y}')
+            return up(x+1,y)
+        up(self.x+1,self.y)
+    def move(self,inpx, inpy):
+        if self.a[inpx][inpy] == 'X':
+            self.moved = True
+            self.a[inpx][inpy] = '♜'
+            self.a[self.x][self.y] = 0
+            for i in range(8):
+                for j in range(8):
+                    if self.a[i][j] == 'X' or self.a[i][j] == 0:
+                        self.a[i][j] = '⬛'
+        else:
+            print("invalid input")
 
-print()
+def board():
+    print()
+    z = ''
+    x = 0
+    print("  01 23 45 67 -Y")
+    for i in range(8):
+        z+= (str(x)+ ' ')
+        x+=1
+        for j in range(8):
+            z+=(a[i][j])
+        print(z)
+        z=''
+    print('-✖')
 a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
      ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
@@ -51,45 +102,49 @@ a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛']]
 
-def board():
-    z = ''
-    x = 0
-    print("  01 23 45 67 y")
-    for i in range(8):
-        z+= (str(x)+ ' ')
-        x+=1
-        for j in range(8):
-            z+=(a[i][j])
-        print(z)
-        z=''
+pawn0 = Pawn(6,0,'w',a)
+pawn1 = Pawn(6,1,'w',a)
+pawn2 = Pawn(6,2,'w',a)
+pawn3 = Pawn(6,3,'w',a)
+pawn4 = Pawn(6,4,'w',a)
+pawn5 = Pawn(6,5,'w',a)
+pawn6 = Pawn(6,6,'w',a)
+pawn7 = Pawn(6,7,'w',a)
 
-pawn1 = Pawn(7,0,'w',a)
-pawn2 = Pawn(7,1,'w',a)
-pawn3 = Pawn(7,2,'w',a)
-pawn4 = Pawn(7,3,'w',a)
-pawn5 = Pawn(7,4,'w',a)
-pawn6 = Pawn(7,5,'w',a)
-pawn7 = Pawn(7,6,'w',a)
-pawn8 = Pawn(7,7,'w',a)
+rook0 = Rook(4,5,'w',a)
 
 board()
 print()
+# while True:
+#     player = input("Choose a coordinate: x,y ").split(',')
+#     n, m, q = int(player[0]), int(player[1]), a[n][n]
+#     #perform checks for inside or outside index
+#
+#     if q != '⬜' and q != '⬛': # and if enemy that isn't highlighted
+#         #get whats in grid location from dictionary
+#         #run the moves
+#         break
 
+print("\nrook0 has been selected\n")
+rook0.poss_moves()
+# pawn1.poss_moves()
+board()
+player = input("Choose a coordinate: x,y ").split(',')
+x,y = int(player[0]),int(player[1])
+board()
+pawn1.move(x,y)
 
-print("\npawn 1 has been selected\n")
-
-pawn5.poss_moves()
 board()
 
-x,y = int(input("x:")),int(input("y:"))
-pawn5.move(x,y)
-
-board()
 
 
 
 
+#each piece has 3 functions:
+#possible moves
 
+#move
+#ignore moves
 
 
 
