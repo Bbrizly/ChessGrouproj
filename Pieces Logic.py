@@ -1,11 +1,22 @@
+def check_peice(x,y):
+    if a[x][y] in ['⬜', '⬛']:
+        print("another coordinate")
+    else:
+        if isinstance(a[x][y], Pawn):
+            print("pawn")
+        elif isinstance(a[x][y], Rook):
+            print("rook")
 class Pawn:
-    def __init__(self,x:int,y:int,color:str,board:list):
-        self.x, self.y = x,  y
+    def __init__(self, x: int, y: int, color: str, board: list):
+        self.x, self.y = x, y
         self.color = color
         self.moved = False
         self.a = board
-        a[self.x][self.y] = '♟'
+        a[self.x][self.y] = self
         #once moved can only go up in ones
+
+    def __str__(self):
+        return f'{"♟"}'
     def poss_moves(self):  # pawn
         # up 2 or 1
         # if up 2 == #enemy or 0: can do so highlight
@@ -37,7 +48,7 @@ class Pawn:
             self.a[self.x][self.y] = 0
             for i in range(8):
                 for j in range(8):
-                    if self.a[i][j] == 'X' or self.a[i][j] == 0:
+                    if self.a[i][j] == 'X':
                         self.a[i][j] = '⬛'
         else:
             print("invalid input")
@@ -47,7 +58,10 @@ class Rook:
         self.x, self.y = x,  y
         self.color = color
         self.a = board
-        a[self.x][self.y] = '♜'
+        a[self.x][self.y] = self
+
+    def __str__(self):
+        return f'{"♜"}'
     def poss_moves(self):  # rook
         def right(x, y):
             if y < 0 or y > 7:  # out of index
@@ -96,17 +110,15 @@ class Rook:
             print("invalid input")
 
 def board():
-    print()
-    z = ''
     x = 0
-    print("  01 23 45 67 -Y")
+    print("  12 34 5 6 7")
+    print("  01 23 45 67 y")
     for i in range(8):
-        z+= (str(x)+ ' ')
         x+=1
+        print(i, end=" ")
         for j in range(8):
-            z+=(a[i][j])
-        print(z)
-        z=''
+            print(a[i][j], end="")
+        print()
     print('-✖')
 a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
@@ -124,9 +136,9 @@ a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
 # pawn4 = Pawn(6,4,'w',a)
 # # pawn5 = Pawn(6,5,'w',a)
 # pawn6 = Pawn(6,6,'w',a)
-# pawn7 = Pawn(6,7,'w',a)
+pawn7 = Pawn(6,7,'w',a)
 
-rook0 = Rook(7,2,'w',a)
+# rook0 = Rook(5,6,'w',a)
 
 board()
 print()
@@ -141,13 +153,13 @@ print()
 #         break
 
 print("\nrook0 has been selected\n")
-rook0.poss_moves()
+pawn7.poss_moves()
 # pawn1.poss_moves()
 board()
 player = input("Choose a coordinate: x,y ").split(',')
 x,y = int(player[0]),int(player[1])
 board()
-pawn1.move(x,y)
+pawn7.move(x,y)
 
 board()
 
