@@ -49,25 +49,40 @@ class Rook:
         self.a = board
         a[self.x][self.y] = '♜'
     def poss_moves(self):  # rook
-        #down max
-        #right max
-        #left max
-        def up(x,y):
-            if x < 0: #out of index
+        def right(x, y):
+            if y < 0 or y > 7:  # out of index
                 return
-            if self.a[x][y] == '⬛' or self.a[x][y] == '⬜':
+            if a[x][y] == '⬛' or a[x][y] == '⬜':
+                a[x][y] = 'X'
+                print(f'you can move to {x},{y}')
+            return right(x, y - 1)
+
+        right((self.x), self.y - 1)
+        def left(x, y):
+            if y < 0 or y > 7:  # out of index
+                return
+            if a[x][y] == '⬛' or a[x][y] == '⬜':
+                a[x][y] = 'X'
+                print(f'you can move to {x},{y}')
+            return left(x, y+1)
+
+        left((self.x), self.y+1)
+        def up(x,y):
+            if x < 0 or x > 7: #out of index
+                return
+            if a[x][y] == '⬛' or a[x][y] == '⬜':
                 a[x][y] = 'X'
                 print(f'you can move to {x},{y}')
             return up(x-1,y)
-        up(self.x-1,self.y)
+        up((self.x-1),self.y)
         def down(x,y):
-            if x >7: #out of index
+            if x < 0 or x > 7: #out of index
                 return
-            if self.a[x][y] == '⬛' or self.a[x][y] == '⬜':
+            if a[x][y] == '⬛' or a[x][y] == '⬜':
                 a[x][y] = 'X'
                 print(f'you can move to {x},{y}')
-            return up(x+1,y)
-        up(self.x+1,self.y)
+            return down(x+1,y)
+        down((self.x+1),self.y)
     def move(self,inpx, inpy):
         if self.a[inpx][inpy] == 'X':
             self.moved = True
@@ -102,16 +117,16 @@ a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛']]
 
-pawn0 = Pawn(6,0,'w',a)
-pawn1 = Pawn(6,1,'w',a)
-pawn2 = Pawn(6,2,'w',a)
-pawn3 = Pawn(6,3,'w',a)
-pawn4 = Pawn(6,4,'w',a)
-pawn5 = Pawn(6,5,'w',a)
-pawn6 = Pawn(6,6,'w',a)
-pawn7 = Pawn(6,7,'w',a)
+# pawn0 = Pawn(6,0,'w',a)
+# pawn1 = Pawn(6,1,'w',a)
+# pawn2 = Pawn(6,2,'w',a)
+# pawn3 = Pawn(6,3,'w',a)
+# pawn4 = Pawn(6,4,'w',a)
+# # pawn5 = Pawn(6,5,'w',a)
+# pawn6 = Pawn(6,6,'w',a)
+# pawn7 = Pawn(6,7,'w',a)
 
-rook0 = Rook(4,5,'w',a)
+rook0 = Rook(7,2,'w',a)
 
 board()
 print()
