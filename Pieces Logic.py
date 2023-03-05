@@ -1,3 +1,143 @@
+class Pawn:
+    def __init__(self,x:int,y:int,color:str,board:list):
+        self.x, self.y = x,  y
+        self.color = color
+        self.moved = False
+        self.a = board
+        a[self.x][self.y] = '♟'
+        #once moved can only go up in ones
+    def movement(self):
+        self.moved = True
+        # goes through each grid box until occupied or end of board
+        # ^ run 3 times (front, diagonally front)
+        # run ifs for color of piece that occupies box
+        if self.color == "w":
+            print("white")
+        else:
+            print("black")
+        print("moves up twice in first move, ")
+    def poss_moves(self):  # pawn
+        # up 2 or 1
+        # if up 2 == #enemy or 0: can do so highlight
+        try:
+            n, m = (self.x - 1), self.y
+            if n < 0 or m < 0 or n > 8 or n > 8:
+                raise IndexError
+            if self.a[n][m] == '⬛' or self.a[n][m] == '⬜':
+                self.a[n][m] = 'X'
+                print(f'you can move to {n},{m}')
+                try:
+                    n, m = (self.x - 2), self.y
+                    if n < 0 or m < 0 or n > 8 or n > 8:
+                        raise IndexError
+                    if self.a[n][m] == '⬛' or self.a[n][m] == '⬜':
+                        self.a[n][m] = 'X'
+                        print(f'you can move to {n},{m}')
+                except IndexError as e:
+                    print(e)
+        except IndexError as e:
+            print(e)
+    def move(self,inpx, inpy):
+        if self.a[inpx][inpy] == 'X':
+            self.a[inpx][inpy] = '♟'
+            self.a[self.x][self.y] = 0
+            for i in range(8):
+                for j in range(8):
+                    if self.a[i][j] == 'X' or self.a[i][j] == 0:
+                        self.a[i][j] = '⬛'
+        else:
+            print("invalid input")
+
+
+print()
+a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
+     ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
+     ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
+     ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
+     ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
+     ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
+     ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
+     ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛']]
+
+def board():
+    z = ''
+    x = 0
+    print("  12 34 5 6 7")
+    for i in range(8):
+        z+= (str(x)+ ' ')
+        x+=1
+        for j in range(8):
+            z+=(a[i][j])
+        print(z)
+        z=''
+
+pawn = Pawn(5,2,'w',a)
+
+board()
+print()
+
+
+print("\npawn has been selected\n")
+
+pawn.poss_moves()
+board()
+x,y = int(input("x:")),int(input("y:"))
+pawn.move(x,y)
+
+board()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+def poss_moves(currx,curry): #pawn
+    #up 2 or 1
+    #if up 2 == #enemy or 0: can do so highlight
+    try:
+        n, m = (currx - 1), curry
+        if n < 0 or m < 0 or n > 8 or n > 8:
+            raise IndexError
+        if a[n][m] == '⬛' or a[n][m] =='⬜':
+            a[n][m] = 'X'
+            print(f'you can move to {n},{m}')
+            try:
+                n, m = (currx - 2), curry
+                if n < 0 or m < 0 or n > 8 or n > 8:
+                    raise IndexError
+                if a[n][m] == '⬛' or a[n][m] =='⬜':
+                    a[n][m] = 'X'
+                    print(f'you can move to {n},{m}')
+            except IndexError as e:
+                print(e)
+    except IndexError as e:
+        print(e)
+def move(inpx,inpy,currx,curry):
+    if a[inpx][inpy] == 'X':
+        a[inpx][inpy] = '♟'
+        a[currx][curry] = 0
+        for i in range(8):
+            for j in range(8):
+                if a[i][j] == 'X' or a[i][j] == 0:
+                    a[i][j] = '⬛'
+    else:
+        print("invalid input")
+'''
+'''
 class Rook:
     def __init__(self,color:str):
         self.color = color
@@ -53,20 +193,5 @@ class Horse:
             print("black")
         print("Moves diagonally in all directions")
 
-class Pawn:
-    def __init__(self,color:str):
-        self.color = color
-        self.moved = False
-        #once moved can only go up in ones
-    def movement(self):
-        self.moved = True
-        # goes through each grid box until occupied or end of board
-        # ^ run 3 times (front, diagonally front)
-        # run ifs for color of piece that occupies box
-        if self.color == "w":
-            print("white")
-        else:
-            print("black")
-        print("moves up twice in first move, ")
-
 #queen and king
+'''
