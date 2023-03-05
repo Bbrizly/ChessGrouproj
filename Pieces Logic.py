@@ -6,20 +6,12 @@ class Pawn:
         self.a = board
         a[self.x][self.y] = '♟'
         #once moved can only go up in ones
-    def movement(self):
-        self.moved = True
-        # goes through each grid box until occupied or end of board
-        # ^ run 3 times (front, diagonally front)
-        # run ifs for color of piece that occupies box
-        if self.color == "w":
-            print("white")
-        else:
-            print("black")
-        print("moves up twice in first move, ")
     def poss_moves(self):  # pawn
         # up 2 or 1
         # if up 2 == #enemy or 0: can do so highlight
         try:
+            #if white -1
+            #if black +1
             n, m = (self.x - 1), self.y
             if n < 0 or m < 0 or n > 8 or n > 8:
                 raise IndexError
@@ -62,7 +54,7 @@ a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
 def board():
     z = ''
     x = 0
-    print("  12 34 5 6 7")
+    print("  01 23 45 67 y")
     for i in range(8):
         z+= (str(x)+ ' ')
         x+=1
@@ -71,18 +63,26 @@ def board():
         print(z)
         z=''
 
-pawn = Pawn(5,2,'w',a)
+pawn1 = Pawn(7,0,'w',a)
+pawn2 = Pawn(7,1,'w',a)
+pawn3 = Pawn(7,2,'w',a)
+pawn4 = Pawn(7,3,'w',a)
+pawn5 = Pawn(7,4,'w',a)
+pawn6 = Pawn(7,5,'w',a)
+pawn7 = Pawn(7,6,'w',a)
+pawn8 = Pawn(7,7,'w',a)
 
 board()
 print()
 
 
-print("\npawn has been selected\n")
+print("\npawn 1 has been selected\n")
 
-pawn.poss_moves()
+pawn5.poss_moves()
 board()
+
 x,y = int(input("x:")),int(input("y:"))
-pawn.move(x,y)
+pawn5.move(x,y)
 
 board()
 
