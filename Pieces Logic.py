@@ -1,11 +1,16 @@
-def check_peice(x,y):
-    if a[x][y] in ['⬜', '⬛']:
-        print("another coordinate")
-    else:
+def check_piece(x,y):
+    if a[x][y] not in ['⬜', '⬛']:
         if isinstance(a[x][y], Pawn):
-            print("pawn")
+            print("Pawn")
         elif isinstance(a[x][y], Rook):
-            print("rook")
+            print("Rook")
+        elif isinstance(a[x][y], Bishop):
+            print("Bishop")
+        elif isinstance(a[x][y], Queen):
+            print("Queen")
+        elif isinstance(a[x][y], Horse):
+            print("Horse")
+
 class Pawn:
     def __init__(self, x: int, y: int, color: str, board: list):
         self.x, self.y = x, y
@@ -367,6 +372,7 @@ hrus1.poss_moves()
 board()
 player = input("Choose a coordinate: x,y ").split(',')
 x,y = int(player[0]),int(player[1])
+#Check piece func
 board()
 hrus.move(x,y)
 hrus1.move(x,y)
