@@ -103,22 +103,19 @@ de = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
 # ♔♕♖♗♘♙♚♛♜♝♞♟
 
 #bugs:
-#pieces not spawning right DONE
 #pawn can double move over a piece (do recursion with a count instead of the "once" variable being true or false)
-#pawn can move diagonally (wrong) DONE
-#pawns can eat vertically (wrong) DONE
 
 def movement(x, xo, y, yo, once, passive, clr):  # =-=-THE HOLY GRAIL-=-=  (fyi touching this function is treason)
     if x < 0 or x > 7 or y < 0 or y > 7:  # checks if out of index
         return
     print(passive)
     if a[x][y] == de[x][y]:  # add and a[x][y] == enemy ###########
-        if passive == 1:
+        if passive == 1: #relates to pawn logic
             return
         a[x][y] = '❌'
         print(f'you can move to {x},{y}')
     elif a[x][y] != de[x][y] and str(a[x][y].color) != clr:
-        if passive == 0:
+        if passive == 0: #relates to pawn logic
             return
         a[x][y].under_attack = True
         print(f'you can move to {x},{y}')
@@ -128,8 +125,6 @@ def movement(x, xo, y, yo, once, passive, clr):  # =-=-THE HOLY GRAIL-=-=  (fyi 
     if once == True:
         return
     return movement(x + xo, xo, y + yo, yo, once, passive, clr)
-
-
 class Pieces(object):
     def __init__(self, x, y, color, board, emoji, placement, image, under_attack=False):
         self.x, self.y = x, y
@@ -145,71 +140,47 @@ class Pieces(object):
         return f'{self.emoji}'
 
     def long_poss_moves(self):  # long moves
-        # global x1
-        # global y1
-        if isinstance(self, Rook) or isinstance(self, Queen):
-            # right 0 +1
-            movement(self.x + 0, 0, self.y + 1, 1, False, None, self.color)
-            # left 0 -1
-            movement(self.x + 0, 0, self.y + -1, -1, False, None, self.color)
-            # up -1 0
-            movement(self.x + -1, -1, self.y + 0, 0, False, None, self.color)
-            # down +1 0
-            movement(self.x + 1, 1, self.y + 0, 0, False, None, self.color)
-        if isinstance(self, Bishop) or isinstance(self, Queen):
-            # upright -1 +1
-            movement(self.x + -1, -1, self.y + 1, 1, False, None, self.color)
-            # dwnleft +1 -1
-            movement(self.x + 1, 1, self.y + -1, -1, False, None, self.color)
-            # upleft  -1 -1
-            movement(self.x + -1, -1, self.y + -1, -1, False, None, self.color)
-            # downright +1 +1
-            movement(self.x + +1, +1, self.y + 1, 1, False, None, self.color)
+        def longMoves(TF):
+            if isinstance(self, Rook) or isinstance(self, Queen) or isinstance(self, King):
+                # right 0 +1
+                movement(self.x + 0, 0, self.y + 1, 1, TF, None, self.color)
+                # left 0 -1
+                movement(self.x + 0, 0, self.y + -1, -1, TF, None, self.color)
+                # up -1 0
+                movement(self.x + -1, -1, self.y + 0, 0, TF, None, self.color)
+                # down +1 0
+                movement(self.x + 1, 1, self.y + 0, 0, TF, None, self.color)
+            if isinstance(self, Bishop) or isinstance(self, Queen) or isinstance(self, King):
+                # upright -1 +1
+                movement(self.x + -1, -1, self.y + 1, 1, TF, None, self.color)
+                # dwnleft +1 -1
+                movement(self.x + 1, 1, self.y + -1, -1, TF, None, self.color)
+                # upleft  -1 -1
+                movement(self.x + -1, -1, self.y + -1, -1, TF, None, self.color)
+                # downright +1 +1
+                movement(self.x + +1, +1, self.y + 1, 1, TF, None, self.color)
+        if isinstance(self, King):
+            longMoves(True)
+        else:
+            longMoves(False)
         board()
-    def short_poss_moves(self):
-        if (isinstance(self, Pawn) and self.color == "w"):
-            movement(self.x + -1, -1, self.y + 0, 0, True, 0, self.color) #up True #up right False #default False
-            #up -1 0
-            movement(self.x + -1, -1, self.y + 1, 1, True, 1, self.color)
+    def pawn_moves(self):
+        def moves(a):
+            movement(self.x + (-1*a), (-1*a), self.y + 0, 0, True, 0, self.color)  # up True #up right False #default False
+            # up -1 0
+            movement(self.x + (-1*a), (-1*a), self.y + (1*a), (1*a), True, 1, self.color)
             # upright -1 +1
-            movement(self.x + -1, -1, self.y + -1, -1, True, 1, self.color)
+            movement(self.x + (-1*a), (-1*a), self.y + (-1*a), (-1*a), True, 1, self.color)
             # upleft  -1 -1
             if self.moved == False and isinstance(self, Pawn):
                 # double up
-                movement(self.x - 2, -2, self.y, 0, True, 0, self.color)
-
-        if (isinstance(self, Pawn) and self.color == "b"):
-            # down +1 0
-            movement(self.x + 1, 1, self.y + 0, 0, True, 0, self.color)
-            # dwnleft +1 -1
-            movement(self.x + +1, -1, self.y + -1, 1, True, 1, self.color)
-            # downright -1 +1
-            movement(self.x + +1, -1, self.y + 1, 1, True, 1, self.color)
-            if self.moved == False and isinstance(self, Pawn):
-                # double down
-                movement(self.x + 2, +2, self.y, 0, True, 0, self.color)
-
-        ##### KING:
-        if isinstance(self, King):
-            # up -1 0
-            movement(self.x + -1, -1, self.y + 0, 0, True, False, self.color)
-            # upright -1 +1
-            movement(self.x + -1, -1, self.y + 1, 1, True, True, self.color)
-            # upleft  -1 -1
-            movement(self.x + -1, -1, self.y + -1, -1, True, True, self.color)
-            # down +1 0
-            movement(self.x + 1, 1, self.y + 0, 0, True, False, self.color)
-            # dwnleft +1 -1
-            movement(self.x + +1, -1, self.y + -1, 1, True, True, self.color)
-            # downright -1 +1
-            movement(self.x + +1, -1, self.y + 1, 1, True, True, self.color)
-            # right 0 +1
-            movement(self.x + 0, 0, self.y + 1, 1, True, False, self.color)
-            # left 0 -1
-            movement(self.x + 0, 0, self.y - 1, 1, True, False, self.color)
+                movement(self.x + (-2*a), (-2*a), self.y, 0, True, 0, self.color)
+        if self.color == "w":
+            moves(1)
+        else:
+            moves(-1)
         board()
-
-    def poss_moves(self):  # Horse
+    def horse_moves(self):  # Horse
         # upright -2 1
         movement(self.x + -2, -2, self.y + 1, 1, True, None, self.color)
         # up left -2 -1
@@ -226,7 +197,6 @@ class Pieces(object):
         movement(self.x + -1, -1, self.y + -2, -2, True, None, self.color)
         # left down +1 -2
         movement(self.x + 1, 1, self.y + -2, -2, True, None, self.color)
-
         board()
 
     def move(self, inpx, inpy):
@@ -251,16 +221,13 @@ class Pieces(object):
                     a[i][j].under_attack = False
 
     pg.display.update()
-
-
 def check_piece(x, y):
-    if isinstance(a[x][y], Pawn) or isinstance(a[x][y], King):
-        a[x][y].short_poss_moves()
-    elif isinstance(a[x][y], Rook) or isinstance(a[x][y], Bishop) or isinstance(a[x][y], Queen):
-        a[x][y].long_poss_moves()
+    if isinstance(a[x][y], Pawn):
+        a[x][y].pawn_moves()
     elif isinstance(a[x][y], Horse):
-        a[x][y].poss_moves()
-
+        a[x][y].horse_moves()
+    elif isinstance(a[x][y],King) or isinstance(a[x][y], Rook) or isinstance(a[x][y], Bishop) or isinstance(a[x][y], Queen):
+        a[x][y].long_poss_moves()
 
 class Pawn(Pieces):
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
@@ -268,41 +235,28 @@ class Pawn(Pieces):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
         self.moved = False
         # once moved can only go up in ones
-
-
 class Rook(Pieces):
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
                  placement, image, under_attack):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
-
-
 class Bishop(Pieces):
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
                  placement, image, under_attack):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
-
-
 class Queen(Pieces):
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
                  placement, image, under_attack):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
-
-
 class King(Pieces):
-
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
                  placement, image, under_attack):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
         self.moved = False
         # once moved, cannot castle
-
-
 class Horse(Pieces):
     def __init__(self, x: int, y: int, color: str, board: list, emoji,
                  placement, image, under_attack):
         super().__init__(x, y, color, board, emoji, placement, image, under_attack)
-
-
 def board():
     x = ''
     for i in range(8):
@@ -317,8 +271,6 @@ def board():
         print()
         print(str(z) + '\t' + x)
         x = ''
-
-
 a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
      ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
@@ -328,9 +280,8 @@ a = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
      ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛']]
 
-
 # test cases:
-# the placement is flexible thanks to math
+# the placement is flexible thanks to math <3 😘💋
 def ClassicOrientation():
     pawn0 = Pawn(6, 0, 'w', a, "♟", [width_8 / 5, height_8 * 6 + height_8 / 10],
                  pawn_white, False)
