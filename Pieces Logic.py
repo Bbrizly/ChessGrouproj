@@ -61,10 +61,8 @@ rook_black = pg.transform.scale(rook_black, (
 
 poss_places = pg.image.load("chess images/dot.png")
 poss_places = pg.transform.scale(poss_places, (width_8, height_8))
-
 # meme = pg.image.load("chess images/WIN_20221006_20_18_20_Pro.jpg")
 # meme = pg.transform.scale(meme, (width_8, height_8))
-
 def update_window():
     brown = (100, 65, 30)
     window.fill(brown)
@@ -88,8 +86,6 @@ def update_window():
             if a[i][j] == '❌':
                 window.blit(poss_places, (int(j * width_8), int(i * height_8)))
     pg.display.update()
-
-
 de = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
       ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
       ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
@@ -98,8 +94,6 @@ de = [['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
       ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛'],
       ['⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜'],
       ['⬜', '⬛', '⬜', '⬛', '⬜', '⬛', '⬜', '⬛']]
-
-
 # ♔♕♖♗♘♙♚♛♜♝♞♟
 
 #bugs:
@@ -312,22 +306,14 @@ def ClassicOrientation():
                  [width_8 / 6.5 + width_8 * 7, height_8 / 10 + height_8 * 7],
                  rook_white, False)
 
-    bishop0 = Bishop(7, 1, "w", a, "♗", [width_8, height_8 / 20 + height_8 * 7],
-                     bishop_white, False)
-    bishop1 = Bishop(7, 6, "w", a, "♗",
-                     [width_8 * 6, height_8 / 20 + height_8 * 7], bishop_white, False)
+    bishop0 = Bishop(7, 2, "w", a, "♗", [width_8 * 2, height_8 / 20 + height_8 * 7],bishop_white, False)
+    bishop1 = Bishop(7, 5, "w", a, "♗",[width_8 * 5, height_8 / 20 + height_8 * 7], bishop_white, False)
 
-    queen = Queen(7, 3, "w", a, "♕",
-                  [width_8 / 50 + width_8 * 3, height_8 / 10 + height_8 * 7],
-                  queen_white, False)
-    king = King(7, 4, "w", a, "♔",
-                [width_8 / 12 + width_8 * 4, height_8 / 12 + height_8 * 7],
-                king_white, False)
+    queen = Queen(7, 3, "w", a, "♕",[width_8 / 50 + width_8 * 3, height_8 / 10 + height_8 * 7],queen_white, False)
+    king = King(7, 4, "w", a, "♔",[width_8 / 12 + width_8 * 4, height_8 / 12 + height_8 * 7],king_white, False)
 
-    hrus = Horse(7, 2, 'w', a, "♞", [width_8 * 2, height_8 / 50 + height_8 * 7],
-                 knight_white1, False)
-    hrus1 = Horse(7, 5, 'w', a, "♞", [width_8 * 5, height_8 / 50 + height_8 * 7],
-                  knight_white2, False)
+    hrus = Horse(7, 1, 'w', a, "♞", [width_8, height_8 / 50 + height_8 * 7],knight_white1, False)
+    hrus1 = Horse(7, 6, 'w', a, "♞", [width_8 * 6, height_8 / 50 + height_8 * 7],knight_white2, False)
 
     pawn8 = Pawn(1, 0, 'b', a, "♟", [width_8 / 5, height_8 + height_8 / 10],
                  pawn_black, False)
@@ -358,22 +344,17 @@ def ClassicOrientation():
                  [width_8 / 6 + width_8 * 7, height_8 / 15],
                  rook_black, False)
 
-    bishop2 = Bishop(0, 1, "b", a, "♗", [width_8 + width_8 / 30, height_8 / 20],
-                     bishop_black, False)
-    bishop3 = Bishop(0, 6, "b", a, "♗",
-                     [width_8 * 6 + width_8 / 30, height_8 / 20], bishop_black, False)
+    bishop2 = Bishop(0, 2, "b", a, "♗", [width_8 * 2, height_8 / 20],bishop_black, False)
+    bishop3 = Bishop(0, 5, "b", a, "♗",[width_8 * 5 + width_8 / 30, height_8 / 20], bishop_black, False)
 
-    queen1 = Queen(0, 3, "b", a, "♕",
-                   [width_8 * 3 + width_8 / 20, height_8 / 10],
+    queen1 = Queen(0, 3, "b", a, "♕",[width_8 * 3 + width_8 / 20, height_8 / 10],
                    queen_black, False)
     king1 = King(0, 4, "b", a, "♔",
                  [width_8 / 20 + width_8 * 4, height_8 / 20],
                  king_black, False)
 
-    hrus2 = Horse(0, 2, 'b', a, "♞", [width_8 * 2, height_8 / 20],
-                  knight_black1, False)
-    hrus3 = Horse(0, 5, 'b', a, "♞", [width_8 / 50 + width_8 * 5, height_8 / 50],
-                  knight_black2, False)
+    hrus2 = Horse(0, 1, 'b', a, "♞", [width_8, height_8 / 20],knight_black1, False)
+    hrus3 = Horse(0, 6, 'b', a, "♞", [width_8 * 6, height_8 / 50],knight_black2, False)
 ClassicOrientation()
 
 board()
@@ -398,7 +379,8 @@ def main():
                 run = False
 
             # detecting the mouse click and getting the position
-            if pg.mouse.get_pressed() == (1, 0, 0) and x == None:
+            # if pg.mouse.get_pressed() == (1, 0, 0) and x == None:
+            if (event.type == pg.MOUSEBUTTONDOWN and x == None):
                 player = str(pg.mouse.get_pos()).split(", ")
                 x, y = int((player[0].split("("))[1]) // width_8, int(
                     (player[1].split(")"))[0]) // height_8
@@ -414,7 +396,8 @@ def main():
                     board()
                     update_window()
             # moving the peice
-            elif pg.mouse.get_pressed() == (1, 0, 0) and x != None:
+            #elif pg.mouse.get_pressed() == (1, 0, 0) and x != None:
+            elif event.type == pg.MOUSEBUTTONDOWN and x != None:
                 player = str(pg.mouse.get_pos()).split(", ")
                 x1, y1 = int((player[0].split("("))[1]) // width_8, int(
                     (player[1].split(")"))[0]) // height_8
@@ -431,7 +414,6 @@ def main():
                 pg.display.update()
             else:
                 update_window()
-
     pg.quit()
 
 
